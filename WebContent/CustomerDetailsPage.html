@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details - Cake Order</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(to right, #ffe8e8, #f9b2b2); font-family: 'Arial', sans-serif; }
+        .container { margin-top: 50px; }
+        .card { border-radius: 15px; background-color: #fff; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        .card-header { background-color: #ffe8e8; color: #555; border-radius: 15px 15px 0 0; text-align: center; padding: 20px; font-weight: bold; }
+        .form-group label { font-weight: bold; color: #666; }
+        .form-control { border: 1px solid #ccc; border-radius: 8px; }
+        .btn-custom { background-color: #f9b2b2; border: none; color: black; border-radius: 8px; padding: 10px; font-size: 18px; transition: background 0.3s ease; }
+        .btn-custom:hover { background-color: lightpink; }
+    </style>
+</head>
+<body>
+   <form action="save-order" id="orderForm" method="POST">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header"><b>CUSTOMER DETAILS</b></div>
+                        <div class="card-body">
+                            <h5>Order Summary</h5>
+                            <div class="form-group">
+                                <label for="productSummary">Product</label>
+                                <input type="text" class="form-control" id="productSummary" name="product" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantitySummary">Quantity</label>
+                                <input type="text" class="form-control" id="quantitySummary" name="quantity" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="totalPriceSummary">Total Price</label>
+                                <input type="text" class="form-control" id="totalPriceSummary" name="price" readonly>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Delivery Address</label>
+                                <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryDate">Preferred Delivery Date</label>
+                                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cakeWeight">Cake Weight (in kgs):</label>
+                                <input type="number" class="form-control" id="cakeWeight" name="cakeWeight" min="0.5" step="0.5" required>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="cashOnDelivery" name="paymentMethod" value="Cash on Delivery" checked disabled>
+                                    <label class="form-check-label" for="cashOnDelivery">Cash on Delivery (COD) - Available</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="acceptTerms" required>
+                                <label class="form-check-label" for="acceptTerms">
+                                    I understand that payment will be made in cash upon delivery.
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-custom btn-block">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                product: params.get('product'),
+                price: params.get('price'),
+                quantity: params.get('quantity')
+            };
+        }
+
+        function updateOrderSummary() {
+            const orderDetails = getUrlParams();
+            if (orderDetails.product && orderDetails.price && orderDetails.quantity) {
+                document.getElementById('productSummary').value = orderDetails.product;
+                document.getElementById('quantitySummary').value = orderDetails.quantity;
+                document.getElementById('totalPriceSummary').value = (orderDetails.price * orderDetails.quantity).toFixed(2);
+            }
+        }
+
+        window.onload = updateOrderSummary;
+    </script>
+</body>
+</html>
