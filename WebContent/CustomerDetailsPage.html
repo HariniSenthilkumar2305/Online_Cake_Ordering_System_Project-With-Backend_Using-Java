@@ -85,26 +85,38 @@
         </div>
     </form>
 
-    <script>
-        function getUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                product: params.get('product'),
-                price: params.get('price'),
-                quantity: params.get('quantity')
-            };
-        }
+   <script>
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            product: params.get('product'),
+            price: params.get('price'),
+            quantity: params.get('quantity')
+        };
+    }
 
-        function updateOrderSummary() {
-            const orderDetails = getUrlParams();
-            if (orderDetails.product && orderDetails.price && orderDetails.quantity) {
-                document.getElementById('productSummary').value = orderDetails.product;
-                document.getElementById('quantitySummary').value = orderDetails.quantity;
-                document.getElementById('totalPriceSummary').value = (orderDetails.price * orderDetails.quantity).toFixed(2);
-            }
+    function updateOrderSummary() {
+        const orderDetails = getUrlParams();
+        if (orderDetails.product && orderDetails.price && orderDetails.quantity) {
+            document.getElementById('productSummary').value = orderDetails.product;
+            document.getElementById('quantitySummary').value = orderDetails.quantity;
+            document.getElementById('totalPriceSummary').value = (orderDetails.price * orderDetails.quantity).toFixed(2);
         }
+    }
 
-        window.onload = updateOrderSummary;
-    </script>
+    window.onload = updateOrderSummary;
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+        const product = document.getElementById("productSummary").value;
+        const quantity = document.getElementById("quantitySummary").value;
+        const price = document.getElementById("totalPriceSummary").value;
+        const address = document.getElementById("address").value;
+        const deliveryDate = document.getElementById("deliveryDate").value;
+        const name = document.getElementById("name").value;
+
+        const url = `OrderPlacedPage.html?product=${encodeURIComponent(product)}&quantity=${encodeURIComponent(quantity)}&price=${encodeURIComponent(price)}&address=${encodeURIComponent(address)}&deliveryDate=${encodeURIComponent(deliveryDate)}&name=${encodeURIComponent(name)}`;
+
+        window.location.href = url;
+    });
+</script>
 </body>
 </html>
